@@ -1,3 +1,5 @@
+<img src="custom_components/gree_dummy_server/brand/icon.png" alt="Gree Dummy Server icon" width="96" align="right">
+
 # Gree Dummy Server for Home Assistant
 
 A Home Assistant custom integration (installable from HACS) that answers the
