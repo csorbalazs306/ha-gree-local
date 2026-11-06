@@ -1,6 +1,6 @@
-"""Constants for the Gree Dummy Server integration."""
+"""Constants for the Gree Local integration."""
 
-DOMAIN = "gree_dummy_server"
+DOMAIN = "gree_local"
 
 CONF_EXTERNAL_IP = "external_ip"
 CONF_DOMAIN_NAME = "domain_name"
@@ -22,4 +22,4 @@ DEFAULT_TLS_PORT = 1813
 DEFAULT_MQTT_MODE = MQTT_MODE_LOCAL
 DEFAULT_MQTT_PORT = 1982
 DEFAULT_MQTT_HOLD = 0
-UNRESOLVABLE_MQTT_HOST = "mqtt.gree-dummy.invalid"
+UNRESOLVABLE_MQTT_HOST = "mqtt.gree-local.invalid"

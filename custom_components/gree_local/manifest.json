@@ -1,6 +1,6 @@
 {
-  "domain": "gree_dummy_server",
-  "name": "Gree Dummy Server",
+  "domain": "gree_local",
+  "name": "Gree Local",
   "categories": [
     "climate.heat_pumps_air_conditioning"
   ],
@@ -11,11 +11,11 @@
   "dependencies": [
     "network"
   ],
-  "documentation": "https://github.com/csorbalazs306/ha-gree-dummy-server",
+  "documentation": "https://github.com/csorbalazs306/ha-gree-local",
   "integration_type": "service",
   "iot_class": "local_push",
-  "issue_tracker": "https://github.com/csorbalazs306/ha-gree-dummy-server/issues",
+  "issue_tracker": "https://github.com/csorbalazs306/ha-gree-local/issues",
   "requirements": [],
   "single_config_entry": true,
-  "version": "1.0.0"
+  "version": "1.1.0"
 }

@@ -2,8 +2,8 @@
   "config": {
     "step": {
       "user": {
-        "title": "Gree ál-szerver",
-        "description": "Helyben válaszol a Gree Wi-Fi modulok felhős kézfogására. Utána irányítsd az összes *.gree.com DNS nevet erre a Home Assistantra (pl. AdGuard szabály: ||gree.com^$dnsrewrite=HOME_ASSISTANT_IP).",
+        "title": "Gree Local",
+        "description": "Leválasztja a Gree klímákat az internetről: a Home Assistant válaszol a felhős kézfogásukra, így csak a helyi hálózaton működnek. Utána irányítsd a *.gree.com neveket erre a Home Assistantra (AdGuard szabály: ||gree.com^$dnsrewrite=HOME_ASSISTANT_IP), tiltsd le a klímák internetelérését a routerben, és indítsd újra őket.",
         "data": {
           "external_ip": "A Home Assistant IP-címe, amihez a klímák csatlakoznak",
           "domain_name": "A klímáknak bejelentett szervernév",
@@ -25,14 +25,14 @@
       "duplicate_ports": "A három portnak különbözőnek kell lennie."
     },
     "abort": {
-      "already_configured": "A Gree ál-szerver már be van állítva.",
-      "single_instance_allowed": "A Gree ál-szerver már be van állítva."
+      "already_configured": "A Gree Local már be van állítva.",
+      "single_instance_allowed": "A Gree Local már be van állítva."
     }
   },
   "options": {
     "step": {
       "init": {
-        "title": "Gree ál-szerver",
+        "title": "Gree Local",
         "data": {
           "external_ip": "A Home Assistant IP-címe, amihez a klímák csatlakoznak",
           "domain_name": "A klímáknak bejelentett szervernév",

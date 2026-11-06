@@ -12,6 +12,7 @@ import asyncio
 import base64
 from contextlib import suppress
 import datetime as dt
+import ipaddress
 import json
 import logging
 import os
@@ -46,6 +47,17 @@ CERT_FILE = "selfsigned.crt"
 KEY_FILE = "private.key"
 
 
+def is_lan_address(host: Any) -> bool:
+    """True for addresses that can only come from the local network (private, loopback, link-local)."""
+    try:
+        ip = ipaddress.ip_address(str(host).split("%", 1)[0])
+    except ValueError:
+        return False
+    if isinstance(ip, ipaddress.IPv6Address) and ip.ipv4_mapped:
+        ip = ip.ipv4_mapped
+    return ip.is_private or ip.is_loopback or ip.is_link_local
+
+
 def _aes_ecb_encrypt(plain: str) -> str:
     data = plain.encode()
     pad = 16 - len(data) % 16
@@ -71,7 +83,7 @@ def build_ssl_context(storage_dir: str) -> ssl.SSLContext:
     if not (os.path.isfile(cert_path) and os.path.isfile(key_path)):
         _LOGGER.info("Generating self-signed certificate in %s", storage_dir)
         key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
-        name = x509.Name([x509.NameAttribute(NameOID.COMMON_NAME, "gree-dummy-server")])
+        name = x509.Name([x509.NameAttribute(NameOID.COMMON_NAME, "gree-local")])
         now = dt.datetime.now(dt.UTC)
         cert = (
             x509.CertificateBuilder()
@@ -105,7 +117,7 @@ def build_ssl_context(storage_dir: str) -> ssl.SSLContext:
     return ctx
 
 
-class GreeDummyServer:
+class GreeLocalServer:
     """Answers the Gree Wi-Fi module's cloud handshake locally."""
 
     def __init__(self, config: dict[str, Any], ssl_context: ssl.SSLContext) -> None:
@@ -114,7 +126,20 @@ class GreeDummyServer:
         self._servers: list[asyncio.Server] = []
         self._tasks: set[asyncio.Task] = set()
         self._mqtt_hits = 0
+        self._rejected: set[str] = set()
         self.devices: dict[str, dict[str, Any]] = {}
+
+    def _reject_non_lan(self, writer: asyncio.StreamWriter) -> bool:
+        """Drop connections that do not come from the local network. Returns True if rejected."""
+        peer = writer.get_extra_info("peername")
+        host = peer[0] if peer else None
+        if is_lan_address(host):
+            return False
+        if host not in self._rejected:
+            self._rejected.add(host)
+            _LOGGER.warning("Rejected connection from non-local address %s (only LAN clients are served)", host)
+        writer.close()
+        return True
 
     async def start(self) -> None:
         """Open the listening sockets; raises OSError if a port is taken."""
@@ -142,7 +167,7 @@ class GreeDummyServer:
             await self.stop()
             raise
         _LOGGER.info(
-            "Gree dummy server listening: tcp=%s tls=%s mqtt=%s (mode %s), announcing %s / %s",
+            "Gree Local server listening: tcp=%s tls=%s mqtt=%s (mode %s), announcing %s / %s",
             self._cfg[CONF_TCP_PORT],
             self._cfg[CONF_TLS_PORT],
             self._cfg[CONF_MQTT_PORT],
@@ -173,6 +198,8 @@ class GreeDummyServer:
         if task:
             self._tasks.add(task)
             task.add_done_callback(self._tasks.discard)
+        if self._reject_non_lan(writer):
+            return
         peer = writer.get_extra_info("peername")
         _LOGGER.debug("Connection from %s (tls=%s)", peer, tls)
         try:
@@ -247,7 +274,7 @@ class GreeDummyServer:
                     "host": ip if mode == MQTT_MODE_LOCAL else UNRESOLVABLE_MQTT_HOST,
                     "port": int(self._cfg[CONF_MQTT_PORT]),
                     "username": mac or "gree",
-                    "password": "gree-dummy",
+                    "password": "gree-local",
                 }
             self.devices.setdefault(mac, {}).update(
                 {"ip": peer[0] if peer else None, "last_dis": time.time(), "need_mqtt": bool(req.get("needMqtt"))}
@@ -277,6 +304,8 @@ class GreeDummyServer:
 
     async def _mqtt_sink(self, reader: asyncio.StreamReader, writer: asyncio.StreamWriter) -> None:
         """Accept MQTT/TLS attempts and drop them (real Gree MQTT uses a pinned certificate)."""
+        if self._reject_non_lan(writer):
+            return
         self._mqtt_hits += 1
         try:
             hold = float(self._cfg.get(CONF_MQTT_HOLD, 0))

@@ -1,4 +1,4 @@
-"""Config and options flow for Gree Dummy Server."""
+"""Config and options flow for Gree Local."""
 
 from __future__ import annotations
 
@@ -77,7 +77,7 @@ async def _defaults(hass: HomeAssistant) -> dict[str, Any]:
     }
 
 
-class GreeDummyServerConfigFlow(ConfigFlow, domain=DOMAIN):
+class GreeLocalConfigFlow(ConfigFlow, domain=DOMAIN):
     VERSION = 1
 
     async def async_step_user(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
@@ -87,17 +87,17 @@ class GreeDummyServerConfigFlow(ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             errors = _validate(user_input)
             if not errors:
-                return self.async_create_entry(title="Gree Dummy Server", data=user_input)
+                return self.async_create_entry(title="Gree Local", data=user_input)
         defaults = user_input or await _defaults(self.hass)
         return self.async_show_form(step_id="user", data_schema=_schema(defaults), errors=errors)
 
     @staticmethod
     @callback
     def async_get_options_flow(config_entry: ConfigEntry) -> OptionsFlow:
-        return GreeDummyServerOptionsFlow()
+        return GreeLocalOptionsFlow()
 
 
-class GreeDummyServerOptionsFlow(OptionsFlow):
+class GreeLocalOptionsFlow(OptionsFlow):
     async def async_step_init(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
         errors: dict[str, str] = {}
         if user_input is not None:

@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0
+
+- Renamed to **Gree Local** (repository `ha-gree-local`, domain `gree_local`). If you installed 1.0.0,
+  remove the old *Gree Dummy Server* integration and add *Gree Local*.
+- Security: only clients on the local network (private, loopback, link-local addresses) are served;
+  connections from public addresses are rejected and logged.
+- README rewritten around the security goal, with a step-by-step setup for non-programmers.
+
 ## 1.0.0
 
 - First release.

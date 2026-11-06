@@ -1,4 +1,4 @@
-"""Protocol tests for the dummy server (no Home Assistant needed)."""
+"""Protocol tests for the Gree Local server (no Home Assistant needed)."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ import types
 
 import pytest
 
-PKG_DIR = Path(__file__).parent.parent / "custom_components" / "gree_dummy_server"
+PKG_DIR = Path(__file__).parent.parent / "custom_components" / "gree_local"
 
 # Load const.py and server.py as a package without running __init__.py (which imports HA).
 _pkg = types.ModuleType("gds")
@@ -110,7 +110,7 @@ def test_certificate_is_reused(tmp_path):
 def test_dis_over_tls(ssl_context, mode, expected_host):
     async def run():
         ports = _free_ports(3)
-        srv = server.GreeDummyServer(_config(mode, ports), ssl_context)
+        srv = server.GreeLocalServer(_config(mode, ports), ssl_context)
         await srv.start()
         try:
             (reply,) = await _talk(ports[1], True, [_encrypted({"t": "dis", "mac": MAC, "p": 1, "needMqtt": 1})])
@@ -133,7 +133,7 @@ def test_dis_over_tls(ssl_context, mode, expected_host):
 def test_dis_over_tcp_without_mqtt(ssl_context):
     async def run():
         ports = _free_ports(3)
-        srv = server.GreeDummyServer(_config(const.MQTT_MODE_LOCAL, ports), ssl_context)
+        srv = server.GreeLocalServer(_config(const.MQTT_MODE_LOCAL, ports), ssl_context)
         await srv.start()
         try:
             (reply,) = await _talk(ports[0], False, [_encrypted({"t": "dis", "mac": MAC})])
@@ -149,7 +149,7 @@ def test_dis_over_tcp_without_mqtt(ssl_context):
 def test_login_time_heartbeat_session(ssl_context):
     async def run():
         ports = _free_ports(3)
-        srv = server.GreeDummyServer(_config(const.MQTT_MODE_LOCAL, ports), ssl_context)
+        srv = server.GreeLocalServer(_config(const.MQTT_MODE_LOCAL, ports), ssl_context)
         await srv.start()
         try:
             replies = await _talk(
@@ -175,7 +175,7 @@ def test_port_in_use_raises(ssl_context):
     async def run():
         ports = _free_ports(3)
         blocker = await asyncio.start_server(lambda r, w: None, "0.0.0.0", ports[1])
-        srv = server.GreeDummyServer(_config(const.MQTT_MODE_LOCAL, ports), ssl_context)
+        srv = server.GreeLocalServer(_config(const.MQTT_MODE_LOCAL, ports), ssl_context)
         try:
             with pytest.raises(OSError):
                 await srv.start()
@@ -184,3 +184,25 @@ def test_port_in_use_raises(ssl_context):
             await blocker.wait_closed()
 
     asyncio.run(run())
+
+
+@pytest.mark.parametrize(
+    ("host", "allowed"),
+    [
+        ("192.168.0.170", True),
+        ("10.1.2.3", True),
+        ("172.16.5.5", True),
+        ("127.0.0.1", True),
+        ("::1", True),
+        ("fe80::1%en0", True),
+        ("::ffff:192.168.1.5", True),
+        ("8.8.8.8", False),
+        ("3.67.116.8", False),
+        ("2a00:1450:4001::200e", False),
+        ("::ffff:8.8.8.8", False),
+        (None, False),
+        ("not-an-ip", False),
+    ],
+)
+def test_only_lan_addresses_are_served(host, allowed):
+    assert server.is_lan_address(host) is allowed

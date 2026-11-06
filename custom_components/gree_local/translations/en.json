@@ -2,8 +2,8 @@
   "config": {
     "step": {
       "user": {
-        "title": "Gree Dummy Server",
-        "description": "Answers the Gree Wi-Fi modules' cloud handshake locally. Afterwards point all *.gree.com DNS names to this Home Assistant (e.g. AdGuard rule: ||gree.com^$dnsrewrite=HOME_ASSISTANT_IP).",
+        "title": "Gree Local",
+        "description": "Keeps your Gree air conditioners off the internet: Home Assistant answers their cloud handshake, so they work only on your local network. Afterwards point *.gree.com to this Home Assistant (AdGuard rule: ||gree.com^$dnsrewrite=HOME_ASSISTANT_IP), block the units' internet access in your router, and restart them.",
         "data": {
           "external_ip": "Home Assistant IP the ACs connect to",
           "domain_name": "Server host name announced to the ACs",
@@ -25,14 +25,14 @@
       "duplicate_ports": "The three ports must be different."
     },
     "abort": {
-      "already_configured": "Gree Dummy Server is already set up.",
-      "single_instance_allowed": "Gree Dummy Server is already set up."
+      "already_configured": "Gree Local is already set up.",
+      "single_instance_allowed": "Gree Local is already set up."
     }
   },
   "options": {
     "step": {
       "init": {
-        "title": "Gree Dummy Server",
+        "title": "Gree Local",
         "data": {
           "external_ip": "Home Assistant IP the ACs connect to",
           "domain_name": "Server host name announced to the ACs",

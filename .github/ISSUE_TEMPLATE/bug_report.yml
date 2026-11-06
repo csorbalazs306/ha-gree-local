@@ -25,5 +25,5 @@ body:
     id: logs
     attributes:
       label: Debug log
-      description: Enable debug logging for custom_components.gree_dummy_server and paste the lines after the AC restarts.
+      description: Enable debug logging for custom_components.gree_local and paste the lines after the AC restarts.
       render: text
