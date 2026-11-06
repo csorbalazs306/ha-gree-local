@@ -16,7 +16,7 @@
         "data_description": {
           "external_ip": "Detected automatically; change it if Home Assistant has another LAN address.",
           "domain_name": "Any *.gree.com name works when *.gree.com is rewritten to this IP.",
-          "mqtt_hold_seconds": "0 closes MQTT attempts immediately. A higher value slows down reconnect loops on some modules."
+          "mqtt_hold_seconds": "0 closes MQTT attempts immediately (recommended). A higher value slows down the reconnect loop, but some modules (e.g. GRJWB04-J) stop answering locally while they wait."
         }
       }
     },

@@ -16,7 +16,7 @@
         "data_description": {
           "external_ip": "Automatikusan felismerve; írd át, ha a Home Assistantnak más a helyi címe.",
           "domain_name": "Bármelyik *.gree.com név jó, ha a *.gree.com erre az IP-re van átírva.",
-          "mqtt_hold_seconds": "0 = azonnal bontja az MQTT próbálkozásokat. Nagyobb érték egyes moduloknál lassítja az újracsatlakozási ciklust."
+          "mqtt_hold_seconds": "0 = azonnal bontja az MQTT próbálkozásokat (ajánlott). Nagyobb érték lassítja az újracsatlakozási ciklust, de egyes modulok (pl. GRJWB04-J) közben nem válaszolnak helyben."
         }
       }
     },

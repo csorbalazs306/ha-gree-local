@@ -40,12 +40,19 @@ with Home Assistant's built-in **Gree Climate** integration (local UDP 7000).
 
 ### MQTT modes (only used when the AC sends `needMqtt: 1`)
 
-- `local_port`: MQTT points at this server, which accepts and drops the
-  connection. Reported to keep units responsive, but they retry very often.
-  Raise *MQTT hold seconds* to slow the retries down.
+- `local_port` (default): MQTT points at this server, which accepts and
+  drops the connection. The unit stays responsive, but it retries constantly.
+  *MQTT hold seconds* keeps each attempt open longer, which slows the retries
+  down, but some modules stop answering locally while they wait.
 - `unresolvable_host`: MQTT points at a host name that does not exist. Also
   reported to keep units responsive, but they send many DNS queries.
 - `none`: no MQTT info (behaves like the original cloud being unreachable).
+
+### Tested
+
+| Wi-Fi module | Firmware | Result |
+|---|---|---|
+| `362001065279` (U-WB05RT13, GRJWB04-J) | V1.45, `needMqtt: 1` | Works with `local_port` and hold **0**: the unit answered 45/45 local UDP probes and was fully controllable from the Gree Climate integration. It makes about 1,500 short local TCP connection attempts per minute to Home Assistant. With hold 10 s the attempts dropped to 6/min, but the unit stopped answering locally (0/45). |
 
 ## DNS setup
 
