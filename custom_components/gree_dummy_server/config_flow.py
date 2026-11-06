@@ -5,12 +5,11 @@ from __future__ import annotations
 import ipaddress
 from typing import Any
 
-import voluptuous as vol
-
 from homeassistant.components.network import async_get_source_ip
 from homeassistant.config_entries import ConfigEntry, ConfigFlow, ConfigFlowResult, OptionsFlow
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers import selector
+import voluptuous as vol
 
 from .const import (
     CONF_DOMAIN_NAME,

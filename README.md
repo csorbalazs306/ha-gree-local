@@ -22,8 +22,11 @@ with Home Assistant's built-in **Gree Climate** integration (local UDP 7000).
 
 ## Installation
 
-1. HACS → ⋮ → Custom repositories → add this repository as type **Integration**.
-2. Install **Gree Dummy Server** and restart Home Assistant.
+[![Open your Home Assistant instance and open this repository in HACS.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=csorbalazs306&repository=ha-gree-dummy-server&category=integration)
+
+1. In HACS, search for **Gree Dummy Server** (or use the button above). If it is not listed yet, add
+   this repository under HACS → ⋮ → Custom repositories as type **Integration**.
+2. Download it and restart Home Assistant.
 3. Settings → Devices & services → Add integration → **Gree Dummy Server**.
    Home Assistant's LAN IP is filled in automatically; every value can be
    changed later via **Configure**.

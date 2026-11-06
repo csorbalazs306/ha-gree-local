@@ -1,0 +1,29 @@
+name: Bug report
+description: Something does not work as expected
+labels: [bug]
+body:
+  - type: input
+    id: module
+    attributes:
+      label: Gree Wi-Fi module and firmware
+      description: The "hid" value from a local scan, e.g. 362001065279+U-WB05RT13V1.45.bin
+    validations:
+      required: true
+  - type: input
+    id: ha_version
+    attributes:
+      label: Home Assistant version
+    validations:
+      required: true
+  - type: textarea
+    id: what_happened
+    attributes:
+      label: What happened?
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Debug log
+      description: Enable debug logging for custom_components.gree_dummy_server and paste the lines after the AC restarts.
+      render: text

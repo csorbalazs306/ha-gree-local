@@ -211,7 +211,7 @@ class GreeDummyServer:
                 await writer.drain()
                 if not keepalive:
                     break
-        except (TimeoutError, asyncio.TimeoutError):
+        except TimeoutError:
             _LOGGER.debug("Connection from %s timed out", peer)
         except (ConnectionError, ssl.SSLError, ValueError, KeyError) as err:
             _LOGGER.debug("Connection from %s failed: %s", peer, err)
@@ -252,7 +252,12 @@ class GreeDummyServer:
             self.devices.setdefault(mac, {}).update(
                 {"ip": peer[0] if peer else None, "last_dis": time.time(), "need_mqtt": bool(req.get("needMqtt"))}
             )
-            _LOGGER.info("Device %s (%s) asked for its server, need_mqtt=%s", mac, peer and peer[0], bool(req.get("needMqtt")))
+            _LOGGER.info(
+                "Device %s (%s) asked for its server, need_mqtt=%s",
+                mac,
+                peer and peer[0],
+                bool(req.get("needMqtt")),
+            )
             return reply, False, True
         if kind == "devLogin":
             m = req.get("mac", "")
