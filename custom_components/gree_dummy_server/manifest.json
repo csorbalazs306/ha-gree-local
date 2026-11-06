@@ -1,0 +1,14 @@
+{
+  "domain": "gree_dummy_server",
+  "name": "Gree Dummy Server",
+  "codeowners": ["@csorbalazs306"],
+  "config_flow": true,
+  "dependencies": ["network"],
+  "documentation": "https://github.com/csorbalazs306/ha-gree-dummy-server",
+  "integration_type": "service",
+  "iot_class": "local_push",
+  "issue_tracker": "https://github.com/csorbalazs306/ha-gree-dummy-server/issues",
+  "requirements": [],
+  "single_config_entry": true,
+  "version": "0.1.0"
+}

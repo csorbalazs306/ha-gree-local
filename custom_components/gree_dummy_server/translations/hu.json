@@ -1,0 +1,61 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Gree ál-szerver",
+        "description": "Helyben válaszol a Gree Wi-Fi modulok felhős kézfogására. Utána irányítsd az összes *.gree.com DNS nevet erre a Home Assistantra (pl. AdGuard szabály: ||gree.com^$dnsrewrite=<ez az IP>).",
+        "data": {
+          "external_ip": "A Home Assistant IP-címe, amihez a klímák csatlakoznak",
+          "domain_name": "A klímáknak bejelentett szervernév",
+          "tcp_port": "Sima TCP port (régi firmware)",
+          "tls_port": "TLS port (1.2x és újabb firmware)",
+          "mqtt_mode": "Válasz MQTT-s firmware-nek (needMqtt)",
+          "mqtt_port": "A klímáknak bejelentett MQTT port",
+          "mqtt_hold_seconds": "MQTT próbálkozások nyitva tartása (másodperc)"
+        },
+        "data_description": {
+          "external_ip": "Automatikusan felismerve; írd át, ha a Home Assistantnak más a helyi címe.",
+          "domain_name": "Bármelyik *.gree.com név jó, ha a *.gree.com erre az IP-re van átírva.",
+          "mqtt_hold_seconds": "0 = azonnal bontja az MQTT próbálkozásokat. Nagyobb érték egyes moduloknál lassítja az újracsatlakozási ciklust."
+        }
+      }
+    },
+    "error": {
+      "invalid_ip": "Adj meg egy érvényes IPv4 címet.",
+      "duplicate_ports": "A három portnak különbözőnek kell lennie."
+    },
+    "abort": {
+      "already_configured": "A Gree ál-szerver már be van állítva.",
+      "single_instance_allowed": "A Gree ál-szerver már be van állítva."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Gree ál-szerver",
+        "data": {
+          "external_ip": "A Home Assistant IP-címe, amihez a klímák csatlakoznak",
+          "domain_name": "A klímáknak bejelentett szervernév",
+          "tcp_port": "Sima TCP port (régi firmware)",
+          "tls_port": "TLS port (1.2x és újabb firmware)",
+          "mqtt_mode": "Válasz MQTT-s firmware-nek (needMqtt)",
+          "mqtt_port": "A klímáknak bejelentett MQTT port",
+          "mqtt_hold_seconds": "MQTT próbálkozások nyitva tartása (másodperc)"
+        }
+      }
+    },
+    "error": {
+      "invalid_ip": "Adj meg egy érvényes IPv4 címet.",
+      "duplicate_ports": "A három portnak különbözőnek kell lennie."
+    }
+  },
+  "selector": {
+    "mqtt_mode": {
+      "options": {
+        "local_port": "MQTT erre a szerverre mutat (a kapcsolatot bontja)",
+        "unresolvable_host": "MQTT egy nem létező névre mutat",
+        "none": "Nincs MQTT adat"
+      }
+    }
+  }
+}

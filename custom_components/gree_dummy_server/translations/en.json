@@ -1,0 +1,61 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Gree Dummy Server",
+        "description": "Answers the Gree Wi-Fi modules' cloud handshake locally. Afterwards point all *.gree.com DNS names to this Home Assistant (e.g. AdGuard rule: ||gree.com^$dnsrewrite=<this IP>).",
+        "data": {
+          "external_ip": "Home Assistant IP the ACs connect to",
+          "domain_name": "Server host name announced to the ACs",
+          "tcp_port": "Plain TCP port (old firmware)",
+          "tls_port": "TLS port (firmware 1.2x and newer)",
+          "mqtt_mode": "Answer for MQTT firmware (needMqtt)",
+          "mqtt_port": "MQTT port announced to the ACs",
+          "mqtt_hold_seconds": "Keep MQTT attempts open for (seconds)"
+        },
+        "data_description": {
+          "external_ip": "Detected automatically; change it if Home Assistant has another LAN address.",
+          "domain_name": "Any *.gree.com name works when *.gree.com is rewritten to this IP.",
+          "mqtt_hold_seconds": "0 closes MQTT attempts immediately. A higher value slows down reconnect loops on some modules."
+        }
+      }
+    },
+    "error": {
+      "invalid_ip": "Enter a valid IPv4 address.",
+      "duplicate_ports": "The three ports must be different."
+    },
+    "abort": {
+      "already_configured": "Gree Dummy Server is already set up.",
+      "single_instance_allowed": "Gree Dummy Server is already set up."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Gree Dummy Server",
+        "data": {
+          "external_ip": "Home Assistant IP the ACs connect to",
+          "domain_name": "Server host name announced to the ACs",
+          "tcp_port": "Plain TCP port (old firmware)",
+          "tls_port": "TLS port (firmware 1.2x and newer)",
+          "mqtt_mode": "Answer for MQTT firmware (needMqtt)",
+          "mqtt_port": "MQTT port announced to the ACs",
+          "mqtt_hold_seconds": "Keep MQTT attempts open for (seconds)"
+        }
+      }
+    },
+    "error": {
+      "invalid_ip": "Enter a valid IPv4 address.",
+      "duplicate_ports": "The three ports must be different."
+    }
+  },
+  "selector": {
+    "mqtt_mode": {
+      "options": {
+        "local_port": "Point MQTT to this server (connection is dropped)",
+        "unresolvable_host": "Point MQTT to a host name that does not exist",
+        "none": "Do not send MQTT info"
+      }
+    }
+  }
+}
