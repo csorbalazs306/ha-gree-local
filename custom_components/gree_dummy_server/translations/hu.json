@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "Gree ál-szerver",
-        "description": "Helyben válaszol a Gree Wi-Fi modulok felhős kézfogására. Utána irányítsd az összes *.gree.com DNS nevet erre a Home Assistantra (pl. AdGuard szabály: ||gree.com^$dnsrewrite=<ez az IP>).",
+        "description": "Helyben válaszol a Gree Wi-Fi modulok felhős kézfogására. Utána irányítsd az összes *.gree.com DNS nevet erre a Home Assistantra (pl. AdGuard szabály: ||gree.com^$dnsrewrite=HOME_ASSISTANT_IP).",
         "data": {
           "external_ip": "A Home Assistant IP-címe, amihez a klímák csatlakoznak",
           "domain_name": "A klímáknak bejelentett szervernév",

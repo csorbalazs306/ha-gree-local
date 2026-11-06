@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "Gree Dummy Server",
-        "description": "Answers the Gree Wi-Fi modules' cloud handshake locally. Afterwards point all *.gree.com DNS names to this Home Assistant (e.g. AdGuard rule: ||gree.com^$dnsrewrite=<this IP>).",
+        "description": "Answers the Gree Wi-Fi modules' cloud handshake locally. Afterwards point all *.gree.com DNS names to this Home Assistant (e.g. AdGuard rule: ||gree.com^$dnsrewrite=HOME_ASSISTANT_IP).",
         "data": {
           "external_ip": "Home Assistant IP the ACs connect to",
           "domain_name": "Server host name announced to the ACs",

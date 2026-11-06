@@ -1,9 +1,16 @@
 {
   "domain": "gree_dummy_server",
   "name": "Gree Dummy Server",
-  "codeowners": ["@csorbalazs306"],
+  "categories": [
+    "climate.heat_pumps_air_conditioning"
+  ],
+  "codeowners": [
+    "@csorbalazs306"
+  ],
   "config_flow": true,
-  "dependencies": ["network"],
+  "dependencies": [
+    "network"
+  ],
   "documentation": "https://github.com/csorbalazs306/ha-gree-dummy-server",
   "integration_type": "service",
   "iot_class": "local_push",
